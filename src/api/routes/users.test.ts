@@ -11,7 +11,7 @@ describe("Users api test", () => {
     //   message: "Handling GET requests to /users"
     // });
     return request(app)
-      .get("/api/users")
-      .expect(200);
+      .get("/api/users/asfasf")
+      .expect(404);
   });
 });
