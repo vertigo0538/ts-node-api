@@ -12,7 +12,7 @@ export class User extends BaseEntity {
   @Column()
   lastName!: string;
 
-  @Column({ unique: true })
+  @Column("text", { unique: true })
   @IsEmail()
   email!: string;
 
@@ -20,6 +20,6 @@ export class User extends BaseEntity {
   @MinLength(10, { message: "10글자 이상 입력하세요" })
   password!: string;
 
-  @Column({ unique: true })
-  token!: string;
+  @Column({ unique: true, nullable: true })
+  token?: string;
 }

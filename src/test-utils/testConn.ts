@@ -1,6 +1,6 @@
 import { createConnection } from "typeorm";
 
-export const testConn = (drop: boolean = false) => {
+export const testConn = (drop: boolean = true) => {
   return createConnection({
     type: "postgres",
     host: "localhost",
@@ -10,6 +10,6 @@ export const testConn = (drop: boolean = false) => {
     database: "type-node-api-test",
     synchronize: drop,
     dropSchema: drop,
-    entities: [__dirname + "src/entity/**/*.ts"]
+    entities: [__dirname + "/../entity/*.ts"]
   });
 };
