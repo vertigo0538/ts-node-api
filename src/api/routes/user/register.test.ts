@@ -19,7 +19,26 @@ describe("Register", () => {
       .send({
         firstName: "kim",
         lastName: "hyunki",
-        email: "ston09@naver.com"
+        email: "ston09@naver.com",
+        password: "password"
+      })
+      .set("Accept", "application/json")
+      // .expect(201, done);
+      .expect(201)
+      .end(function(err, res) {
+        if (err) return done(err);
+        done();
+      });
+  });
+});
+
+describe("Login", () => {
+  test("Login", done => {
+    request(app)
+      .post("/api/login")
+      .send({
+        email: "ston09@naverasd.com",
+        password: "passsword"
       })
       .set("Accept", "application/json")
       // .expect(201, done);

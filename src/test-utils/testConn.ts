@@ -9,7 +9,7 @@ export const testConn = (drop: boolean = true) => {
     password: "postgres",
     database: "type-node-api-test",
     synchronize: drop,
-    dropSchema: drop,
+    // dropSchema: drop,
     entities: [__dirname + "/../entity/*.ts"]
   });
 };

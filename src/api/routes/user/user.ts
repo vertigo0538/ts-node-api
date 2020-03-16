@@ -26,4 +26,52 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 });
 
+router.post("/login", async (req: Request, res: Response) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      res.status(201).json({
+        message: "user not found"
+      });
+    }
+    const valid = await bcrypt.compare(req.body.password, user!.password);
+    if (!valid) {
+      res.status(201).json({
+        message: "password wrong"
+      });
+    }
+    req.session!.userId = user!.id;
+    res.status(201).json({
+      statusCode: "201",
+      message: "Login Successed"
+    });
+  } catch (error) {
+    res.status(404).send(error.message);
+  }
+});
+
+router.post("/logout", async (req: Request, res: Response) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      res.status(201).json({
+        message: "user not found"
+      });
+    }
+    const valid = await bcrypt.compare(req.body.password, user!.password);
+    if (!valid) {
+      res.status(201).json({
+        message: "password wrong"
+      });
+    }
+    req.session!.userId = user!.id;
+    res.status(201).json({
+      statusCode: "201",
+      message: "Login Successed"
+    });
+  } catch (error) {
+    res.status(404).send(error.message);
+  }
+});
+
 export default router;
