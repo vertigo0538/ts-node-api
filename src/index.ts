@@ -1,8 +1,6 @@
 import "reflect-metadata";
 import express from "express";
-import usersRoutes from "./api/routes/user/users";
-import userRoutes from "./api/routes/user/user";
-import productsRoutes from "./api/routes/product/products";
+
 import morgan from "morgan";
 import { notFoundHandler } from "./middleware/notFound";
 import { errorHandler } from "./middleware/error";
@@ -13,7 +11,12 @@ import { redis } from "./reids";
 import cors from "cors";
 import { createConnection } from "typeorm";
 
+import usersRoutes from "./api/routes/users/users";
+import userRoutes from "./api/routes/user/user";
+import productsRoutes from "./api/routes/product/products";
+
 const app = express();
+
 export const startServer = async () => {
   await createConnection();
   const RedisStore = connectRedis(session);
@@ -22,25 +25,25 @@ export const startServer = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: "http://localhost:3000"
+      origin: "http://localhost:3000",
     })
   );
 
   app.use(
     session({
       store: new RedisStore({
-        client: redis as any
+        client: redis as any,
       }),
       name: "qid",
       secret: "aslkdfjoiq12312",
       resave: false,
       saveUninitialized: false,
       cookie: {
-        httpOnly: false,
+        httpOnly: true,
         // sameSite: "strict",
         secure: process.env.NODE_ENV === "production",
-        maxAge: 1000 * 60 * 60 * 24 * 7 * 365 // 7 years
-      }
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 365, // 7 years
+      },
     })
   );
 
@@ -52,7 +55,7 @@ export const startServer = async () => {
   app.use("/api", userRoutes);
   app.use("/api", productsRoutes);
 
-  app.use(errorHandler);
+  // app.use(errorHandler);
 
   app.use(notFoundHandler);
 
