@@ -40,7 +40,6 @@ router.post("/login", async (req: Request, res: Response) => {
       return res.status(401).json({
         message: "패스워드를 확인 해주세요",
       });
-      return;
     }
     req.session!.userId = user.id;
     return res.status(201).json({

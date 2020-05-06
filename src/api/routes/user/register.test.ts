@@ -5,14 +5,16 @@ import { testConn } from "../../../test-utils/testConn";
 
 let conn: Connection;
 beforeAll(async () => {
+  console.log("before");
   conn = await testConn();
 });
 
 afterAll(async () => {
+  console.log("close");
   await conn.close();
 });
 
-describe("Register", () => {
+describe("POST /api/register", () => {
   test("post register", (done) => {
     request(app)
       .post("/api/register")
@@ -23,29 +25,19 @@ describe("Register", () => {
         password: "password",
       })
       .set("Accept", "application/json")
-      // .expect(201, done);
-      .expect(201)
-      .end(function (err, res) {
-        if (err) return done(err);
-        done();
-      });
+      .expect(201, done);
   });
 });
 
-// describe("Login", () => {
+// describe("POST /api/login", () => {
 //   test("Login", (done) => {
 //     request(app)
 //       .post("/api/login")
 //       .send({
 //         email: "ston053812@naver.com",
-//         password: "passsword",
+//         password: "password",
 //       })
 //       .set("Accept", "application/json")
-//       // .expect(201, done);
-//       .expect(201)
-//       .end(function (err, res) {
-//         if (err) return done(err);
-//         done();
-//       });
+//       .expect(201, done);
 //   });
 // });

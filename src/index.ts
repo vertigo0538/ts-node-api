@@ -3,7 +3,6 @@ import express from "express";
 
 import morgan from "morgan";
 import { notFoundHandler } from "./middleware/notFound";
-import { errorHandler } from "./middleware/error";
 import bodyParser from "body-parser";
 import session from "express-session";
 import connectRedis from "connect-redis";
@@ -11,16 +10,19 @@ import { redis } from "./reids";
 import cors from "cors";
 import { createConnection } from "typeorm";
 
-import usersRoutes from "./api/routes/users/users";
 import userRoutes from "./api/routes/user/user";
+import usersRoutes from "./api/routes/users/users";
 import productsRoutes from "./api/routes/product/products";
 
 const app = express();
 
 export const startServer = async () => {
-  await createConnection();
+  if (process.env.NODE_ENV === "production") {
+    await createConnection();
+  }
+
   const RedisStore = connectRedis(session);
-  const port = "4000";
+  // const port = "4000";
 
   app.use(
     cors({
@@ -51,14 +53,11 @@ export const startServer = async () => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
-  app.use("/api", usersRoutes);
   app.use("/api", userRoutes);
+  app.use("/api", usersRoutes);
   app.use("/api", productsRoutes);
 
-  // app.use(errorHandler);
-
   app.use(notFoundHandler);
-
   app.listen(port, () => console.log(`http://localhost:${port}`));
 };
 
