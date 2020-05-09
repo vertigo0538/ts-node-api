@@ -10,6 +10,6 @@ export const testConn = (drop: boolean = true) => {
     database: "type-node-api-test",
     synchronize: drop,
     dropSchema: drop,
-    entities: [__dirname + "/../entity/*.ts"]
+    entities: [__dirname + "/../entity/*.ts"],
   });
 };
